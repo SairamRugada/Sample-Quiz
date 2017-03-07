@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+<style type="text/css">
+		div#options input{
+    			margin-left: 15px;    
+		}
+		li{
+   			 list-style-type: none;
+		}
+		div.questionCointainer{
+		width: 200px;
+		background-color: #FAFAFA;
+		padding: 10px;
+		padding-bottom: 35px;
+		}
+		#nextButton{
+		width: 100px;
+		height: 25px;
+		border-radius: 5px;
+		margin-left: 46px;
+		margin-top: 20px;
+		}
+		.question{
+		   width: 500px;
+		   height: auto;
+		   padding: 10px;
+		   font-size: 18px;
+		   font-weight: bold;
+		   color:blue;
+		}
+		.option_s{
+		    padding: 5px;
+            font-size: 16px;
+            padding-left: 20px;
+			    color: #245216;
+		}
+	</style>
+<script>
+$(document).ready(function(){
+  var json = null;
+<!--   object that is sent to server to store user selected option value-->
+  var storevalue = {
+	"userinputforq_0":"",
+	"userinputforq_1":"",
+	"userinputforq_2":"",
+	"userinputforq_3":"",
+	"userinputforq_4":""
+	}
+	var q_num = 0;
+		 $.ajax({
+		   url: 'data.json',
+		   dataType: 'json',
+		   success: function (data) {
+			   json = data;
+			   question_generator(q_num);
+			 }
+	   });
+	   function question_generator(q_num){
+	    var dom = "";
+	   var obj = json.question1;
+				dom+="<div class = 'question' id = 'question_"+q_num+"'>"+obj[q_num].question+"</div>"
+					for(var j = 0;j<obj[q_num].options.length;j++){
+						dom+="<li class = 'option_s' id = 'option_"+j+"'><input name = 'radiobutton' type = 'radio' id = 'radio_"+j+"'></input><span>"+obj[q_num].options[j]+"</span></li>"
+						}
+				dom+="<button id='nextButton'>Next</button>";
+		$(".questionCointainer").append(dom);
+		setevents();
+	   }
+	   function setevents(obj){
+			$('#nextButton').unbind("click").bind("click",function(){
+			   if( (q_num < (json.question1.length - 1)) && ($('input').is(':checked'))) {
+					storevalue["userinputforq_"+q_num] = $("input:radio:checked").attr('id').split("_")[1];  
+					q_num = q_num + 1;
+					$('input').prop('checked', false);
+					$(".questionCointainer").html("");
+					question_generator(q_num);
+					console.log(storevalue);
+				}
+				else{
+					console.log("question finished")
+					$(this).hide();
+					storevalue["userinputforq_"+q_num] = $("input:radio:checked").attr('id').split("_")[1]; 
+				}
+			 });
+}
+});
+</script>
+</head>
+<body>
+<div class="questionCointainer">
+</div>
+</body>
+</html>

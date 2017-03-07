@@ -1,0 +1,22 @@
+{
+   "question1": [
+       {
+		   "question" : "1.Question ",
+          "options":["first option","second option","third option"]
+       },{
+		   "question" : "2.Question ",
+          "options":["first option","second option","third option"]
+       },{
+		   "question" : "3.Question ",
+          "options":["first option","second option","third option"]
+       },{
+		   "question" : "4.Question ",
+          "options":["first option","second option","third option"]
+       },
+       {
+		   "question" : "5.Question ",
+          "options":["first option","second option","third option"]
+       }
+       
+   ]
+}
